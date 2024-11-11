@@ -30,7 +30,10 @@ async def read_users(request: Request, user_id: int) -> HTMLResponse:
 @app.post('/user/{username}/{age}')
 async def create_user(username: Annotated[str, Path(min_length=5, max_length=20, description='Enter username')],
                       age: int = Path(ge=18, le=120, description='Enter age')) -> dict:
-    user_id = len(users) + 1
+    if users:
+        user_id = max(user.id for user in users) + 1
+    else:
+        user_id = 1
     users.append(User(id=user_id, username=username, age=age))
     return {"message": f"User {user_id} is registered"}
 

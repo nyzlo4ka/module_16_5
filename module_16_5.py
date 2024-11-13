@@ -46,7 +46,7 @@ async def update_user(user_id: int, username: Annotated[str, Path(min_length=5, 
         if user.id == user_id:
             user.username = username
             user.age = age
-            return {"message": f"User {user_id} is updated"}
+            return {"message": f"User {user} is updated"}
         else:
             raise HTTPException(status_code=404, detail="User was not found")
 
@@ -56,5 +56,5 @@ async def delete_user(user_id: int) -> dict:
     for user in users:
         if user.id == user_id:
             users.remove(user)
-            return {"message": f"User {user_id} has been deleted"}
+            return {"message": f"User {user} has been deleted"}
     raise HTTPException(status_code=404, detail="User was not found")
